@@ -1,60 +1,69 @@
-// Mobile menu
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
+const menuButton = document.getElementById("menuButton");
+const navLinks = document.getElementById("navLinks");
 
-if (menuToggle && navMenu) {
-    menuToggle.addEventListener("click", () => {
-        navMenu.classList.toggle("active");
-        menuToggle.classList.toggle("active");
-    });
-}
+menuButton.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
 
-// Close mobile menu after clicking a navigation link
-const navLinks = document.querySelectorAll("#navMenu a");
-
-navLinks.forEach((link) => {
+document.querySelectorAll(".nav-links a").forEach(link => {
     link.addEventListener("click", () => {
-        navMenu.classList.remove("active");
-        menuToggle.classList.remove("active");
+        navLinks.classList.remove("active");
     });
 });
 
-// Smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", function (event) {
-        const target = document.querySelector(this.getAttribute("href"));
 
-        if (target) {
-            event.preventDefault();
+/* Reveal elements when they enter the screen */
 
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-        }
-    });
-});
-
-// Reveal elements when scrolling
 const revealElements = document.querySelectorAll(
-    ".section, .project-card, .skill-card, .learning-card, .assignment-card"
+    ".section, .project-card, .skill-row, .education-card"
 );
 
-const revealObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
+const observer = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-                revealObserver.unobserve(entry.target);
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
             }
         });
     },
     {
-        threshold: 0.12
+        threshold: 0.08
     }
 );
 
-revealElements.forEach((element) => {
+revealElements.forEach(element => {
     element.classList.add("reveal");
-    revealObserver.observe(element);
+    observer.observe(element);
 });
+
+
+/* Current year */
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+/* Subtle cursor glow on desktop */
+
+if (window.matchMedia("(pointer: fine)").matches) {
+
+    const glow = document.createElement("div");
+
+    glow.style.position = "fixed";
+    glow.style.width = "180px";
+    glow.style.height = "180px";
+    glow.style.borderRadius = "50%";
+    glow.style.pointerEvents = "none";
+    glow.style.background =
+        "radial-gradient(circle, rgba(138,114,80,0.08), transparent 70%)";
+    glow.style.transform = "translate(-50%, -50%)";
+    glow.style.zIndex = "-1";
+
+    document.body.appendChild(glow);
+
+    document.addEventListener("mousemove", event => {
+        glow.style.left = `${event.clientX}px`;
+        glow.style.top = `${event.clientY}px`;
+    });
+}
