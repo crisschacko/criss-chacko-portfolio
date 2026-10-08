@@ -1,1 +1,1 @@
-# 
+# A professional personal portfolio website designed to showcase Criss Chacko’s academic background, technical skills, projects, learning journey, and achievements. Built with modern HTML, CSS, and responsive web design principles for a clean and accessible experience across devices.
